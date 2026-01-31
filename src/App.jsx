@@ -1,4 +1,5 @@
 import "./App.css";
+import { useParams } from "react-router-dom";
 
 const Foods = [
   {
@@ -32,8 +33,8 @@ const Foods = [
   },
 ];
 export default function App() {
-  const path = window.location.pathname;
-  const id = path.replace("/", "");
+  const { id } = useParams(); // "1", "2", "3"
+
   const foodArray = Foods;
   if (id !== null) {
     return (
