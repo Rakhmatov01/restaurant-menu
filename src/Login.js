@@ -25,7 +25,7 @@ function Login({ setToken, tableNumber, setActive }) {
   return (
     <div className="login-body">
       <div className="login-container">
-        <h1>G'ijduvon Kafe </h1>
+        <h1>Buxoro Kafe </h1>
         <Header tableNumber={tableNumber} />
         <Form handleForm={onHandleForm} error={error} />
       </div>
