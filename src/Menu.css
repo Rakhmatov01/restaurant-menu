@@ -1,0 +1,168 @@
+.loading-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.menu-body .header {
+  padding: 20px;
+  padding-right: 150px;
+  display: flex;
+  border: 1px solid rgba(63, 63, 160, 0.4);
+}
+
+.menu-body .header h1 {
+  flex-grow: 1;
+  font-size: 50px;
+  color: blue;
+  text-align: center;
+}
+
+.categories-container {
+  position: relative;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  padding: 15px 30px;
+  background: #fff;
+  margin-bottom: 20px;
+}
+
+.categories-scrolling {
+  display: flex;
+  overflow-x: auto;
+  gap: 20px;
+}
+
+.category-btn {
+  all: unset;
+  cursor: pointer;
+  background: rgb(243, 243, 243);
+  padding: 8px 12px;
+  border-radius: 20px;
+}
+
+.category-btn:hover {
+  background: rgb(231, 231, 231);
+}
+
+.selected {
+  background: green;
+  color: #fff;
+}
+
+.selected:hover {
+  background: green;
+  color: #fff;
+}
+
+.savatcha-btn {
+  all: unset;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 40px;
+  padding: 8px 12px;
+  border-radius: 20px;
+  cursor: pointer;
+  background: red;
+  color: #fff;
+  font-size: 18px;
+}
+
+.savatcha-btn:hover {
+  padding: 9px 14px;
+}
+
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  column-gap: 25px;
+  row-gap: 25px;
+  padding: 40px;
+  padding-top: 10px;
+}
+
+.food-card {
+  max-width: 300px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.food-card:hover {
+  transform: scale(1.02);
+}
+
+.food-card img {
+  border-radius: 10px;
+  width: 100%;
+  aspect-ratio: 4/3;
+}
+
+.card-info {
+  padding: 20px;
+  padding-bottom: 0px;
+  flex-grow: 1;
+}
+
+.card-info p {
+  margin: 20px 0px;
+  opacity: 0.9;
+}
+
+.card-action {
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card-action h3 {
+  color: red;
+}
+
+.card-action button {
+  all: unset;
+  padding: 8px;
+  border-radius: 20px;
+  background-color: blue;
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loader {
+  height: 15px;
+  aspect-ratio: 4;
+  display: grid;
+}
+.loader:before,
+.loader:after {
+  content: "";
+  grid-area: 1/1;
+  --_g: no-repeat radial-gradient(farthest-side, #000 94%, #0000);
+  background:
+    var(--_g) left,
+    var(--_g) right;
+  background-size: 25% 100%;
+  animation: l34 1s infinite;
+  transform: translate(var(--d, 0)) rotate(0);
+}
+.loader:after {
+  --d: 37.5%;
+  animation-delay: 0.5s;
+}
+@keyframes l34 {
+  50%,
+  100% {
+    transform: translate(var(--d, 0)) rotate(0.5turn);
+  }
+}

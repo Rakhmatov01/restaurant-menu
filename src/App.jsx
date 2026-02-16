@@ -1,74 +1,58 @@
-import "./App.css";
+import { useEffect, useState } from "react";
+import Login from "./Login";
+import Menu from "./Menu";
 import { useParams } from "react-router-dom";
-
-const Foods = [
-  {
-    name: "Taomlar",
-    items: [
-      { name: "Shashlik", image: "shashlik.png", cost: 180000 },
-      { name: "Tabaka", image: "tabaka.png", cost: 10000 },
-      { name: "Baliq", image: "baliq.png", cost: 200000 },
-      { name: "Osh", image: "osh.png", cost: 30000 },
-      { name: "Sho'rva", image: "sho'rva.png", cost: 20000 },
-    ],
-  },
-  {
-    name: "Salatlar",
-    items: [
-      { name: "Olivia", image: "olivia.png", cost: 40000 },
-      { name: "Mujiskoy", image: "mujiskoy.png", cost: 20000 },
-      { name: "Achichu", image: "achichu.png", cost: 20000 },
-      { name: "Suzma", image: "osh.png", cost: 30000 },
-    ],
-  },
-  {
-    name: "Suvlar",
-    items: [
-      { name: "Kola", image: "kola.png", cost: 18000 },
-      { name: "Fanta", image: "fanta.png", cost: 10000 },
-      { name: "Pepsi", image: "pepsi.png", cost: 20000 },
-      { name: "Sok", image: "sok.png", cost: 10000 },
-      { name: "Bezgaz", image: "bezgaz.png", cost: 10000 },
-    ],
-  },
-];
+import { checkActiveSession as apiCheckActiveSession } from "./api";
 export default function App() {
-  const { id } = useParams(); // "1", "2", "3"
+  const { tableNumber } = useParams();
+  const [token, setToken] = useState(() => {
+    return localStorage.getItem("session_token") || null;
+  });
+  const [active, setActive] = useState(false);
+  const [loading, setLoading] = useState(true);
 
-  const foodArray = Foods;
-  if (id !== null) {
+  // Save token to localStorage whenever it changes
+  useEffect(() => {
+    if (token) {
+      localStorage.setItem("session_token", token);
+    }
+  }, [token]);
+
+  useEffect(() => {
+    setLoading(true);
+    async function checkActiveSession(tableNumber) {
+      try {
+        const data = await apiCheckActiveSession(tableNumber);
+        setActive(data.active);
+        if (data.active && data.session?.token) {
+          setToken(data.session.token);
+        }
+      } catch (error) {
+        console.error("Session check error:", error);
+        setActive(false);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    if (tableNumber) {
+      checkActiveSession(tableNumber);
+    }
+  }, [tableNumber]);
+
+  if (loading)
     return (
-      <div className="container">
-        <h3>Table number {id}</h3>
-        <form className="starting-page">
-          <label>Enter your name : </label>
-          <input type="text" />
-          <button>Send</button>
-        </form>
+      <div className="loading-container">
+        <div className="loader"></div>
       </div>
     );
-  } else {
-    return (
-      <div className="app">
-        <Navbar foodArray={foodArray} />
-      </div>
-    );
-  }
-}
-
-function Navbar({ foodArray }) {
-  return (
-    <>
-      <img src="" alt="Logo" />
-      <FoodList foodArray={foodArray} />
-    </>
-  );
-}
-
-function FoodList({ foodArray }) {
-  return (
-    <ul>
-      <li>{foodArray[0].name}</li>
-    </ul>
+  return !active || !token ? (
+    <Login
+      setActive={setActive}
+      setToken={setToken}
+      tableNumber={tableNumber}
+    />
+  ) : (
+    <Menu token={token} tableNumber={tableNumber} />
   );
 }
