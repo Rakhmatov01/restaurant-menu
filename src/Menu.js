@@ -41,7 +41,7 @@ export default function Menu({ token, tableNumber }) {
     if (token) {
       getMenu();
     }
-  }, [token]);
+  }, [token, menuData]);
 
   useEffect(() => {
     if (menuData) {
